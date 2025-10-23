@@ -1,0 +1,2054 @@
+{
+  "name": "26. Faceless Shorts System",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -128
+      ],
+      "id": "f20c8396-5f08-4065-aac0-489b7a4f1ef4",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 3,
+              "triggerAtHour": 16,
+              "triggerAtMinute": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        -208
+      ],
+      "id": "bede5fc9-92c2-4e98-9502-802e7c7063a8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI",
+          "mode": "list",
+          "cachedResultName": "26. Youtube Shorts Content Creation Image 2 video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Video Status",
+              "lookupValue": "To Do"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "faddedcc-d366-4491-846a-a800050343f4",
+      "name": "Grab Ideas",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "r5dJyl6N7Nvh7Os3",
+          "name": "Google Sheets AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Animal :{{ $json.animals }}\n\nStyle: {{ $('Set (Animals + Style) Fileds').item.json.style }}",
+        "options": {
+          "systemMessage": "=Agent: Tool Agent\n\n# Overview\nYou are a master image prompt generator specialized in crafting detailed, high-quality prompts for advanced image models like Flux. Your task is to generate vivid, well-structured prompts that accurately depict an animal dressed in a specified style, with a matching background that complements the theme.\n\n## Instructions:\n- Clearly describe the animal's appearance, including fur, feathers, or scales.\n- Specify the outfit and accessories that reflect the given style, ensuring they fit naturally.\n- Include details about the background that reinforce the style, creating a cohesive scene.\n- Use rich, descriptive language to enhance visual fidelity.\n- Avoid generic terms—opt for precise, imaginative descriptions that maximize prompt effectiveness.\n- Never output quotation marks (\"\") or newlines (\\n)\n\n## Example \n- Input:\nAnimal: Fox\nStyle: Cyberpunk\n\n- Output:\nA sleek red fox with vibrant fur and piercing blue cybernetic eyes, wearing a futuristic black leather jacket with neon blue accents and glowing circuitry patterns. A high-tech visor covers one eye, displaying holographic data. The fox stands confidently on a rain-slicked city street illuminated by neon signs in Japanese and English. Hovering drones and bustling pedestrians in cybernetic attire add depth to the scene, while distant flying cars streak through the dark, misty skyline.\n\n\n## IMPORTANT\n- All prompts must be family friendly, no sensitive words should be used.\n- No references to weapons (even toy guns).\n- No reference of “showdowns\" or violent events."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -128
+      ],
+      "id": "c46ac4dd-c836-4254-a74c-f44217f82b30",
+      "name": "Image Prompt Generation: Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// N8N Code Node to remove all newline characters from previous node outputs\n\n// Process all items in the array\n// This will work regardless of whether we're running once for all items or once per item\nfor (let i = 0; i < items.length; i++) {\n  const currentItem = items[i];\n  \n  // Check if the item has an output property\n  if (currentItem.json && currentItem.json.output !== undefined) {\n    // Replace all newline characters with empty string\n    // Using a global regex to catch ALL instances of \\n\n    currentItem.json.output = currentItem.json.output.replace(/\\\\n/g, '');\n    \n    // Also replace actual newline characters if they exist\n    currentItem.json.output = currentItem.json.output.replace(/\\n/g, '');\n  }\n}\n\n// Return the processed items array\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        -128
+      ],
+      "id": "83a00bd2-fe0f-42ee-a9e5-c7c1b6b6cde2",
+      "name": "Remove \\n"
+    },
+    {
+      "parameters": {
+        "content": "# Generate Image Prompts",
+        "height": 416,
+        "width": 1488,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -288
+      ],
+      "id": "552735b6-cb17-474e-8584-12b797e7aae6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "amount": 90
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -240,
+        208
+      ],
+      "id": "0e880f29-9e83-4ad1-a0af-2d05bc325b32",
+      "name": "Wait 90 Sec",
+      "webhookId": "09ccab59-b177-4803-b732-c077a0ed3dd4"
+    },
+    {
+      "parameters": {
+        "content": "# Generate Images",
+        "height": 224,
+        "width": 528,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        144
+      ],
+      "id": "30cbb188-9c8c-42e9-ae8f-c252e3182b6d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Generate Videos",
+        "height": 224,
+        "width": 512,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        96,
+        144
+      ],
+      "id": "acd6ea9c-7f5a-45c6-bf10-110a91ea69af",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "amount": 120
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        208
+      ],
+      "id": "ced6a7c9-d164-4cd5-af25-c04f236cea24",
+      "name": "Wait 120 Sec",
+      "webhookId": "e197e169-b6da-464f-887b-94bdf9862825"
+    },
+    {
+      "parameters": {
+        "content": "# Render & Upload (Video + Audio)",
+        "height": 496,
+        "width": 768,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        720,
+        144
+      ],
+      "id": "0825d392-fb03-449b-b7f9-a3968c902f16",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Generate Audio",
+        "height": 256,
+        "width": 1296,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        384
+      ],
+      "id": "cf3cc60a-7d85-4ae3-89f6-d1f4198d7ca0",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "amount": 25
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        224
+      ],
+      "id": "4e95ae23-ae24-4db3-8141-4035940e1ee9",
+      "name": "Wait 25 Sec",
+      "webhookId": "28906f0b-6314-4f94-a1a2-4a61658b32d4"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $('Grab Ideas').first().json.Title }}",
+        "regionCode": "IN",
+        "categoryId": "=15",
+        "options": {
+          "description": "={{ $('Grab Ideas').first().json.Caption }}"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        928,
+        464
+      ],
+      "id": "2acd22a5-589f-4523-8fd1-f8a5e61ab9eb",
+      "name": "Upload a video",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "Z0b7tUCzDpmo6fgf",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "sachinsavkare08@gmail.com",
+        "subject": "=New Short Processed: {{ $('Grab Ideas').first().json.Title }}",
+        "emailType": "text",
+        "message": "=Sachin,\n\nA New short has been created and is awaiting your approval.\n\nIt is called \"{{ $('Grab Ideas').first().json.Title }}\"\n\nYou can view it here: https://studio.youtube.com/channel/UCWhu85o2iFlEJmCkOPXnixw/videos/short?filter=%5B%5D&sort=%7B%22columnType%22%3A%22date%22%2C%22sortOrder%22%3A%22DESCENDING%22%7D\n\nCheers !!",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1296,
+        464
+      ],
+      "id": "e6529fdb-8695-4822-a961-71145cd24dc0",
+      "name": "Send a message",
+      "webhookId": "0d2babaa-e361-4248-a6de-60b0efe1ccc6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "eCK4EFn7FCxilJEq",
+          "name": "Gmail AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 224,
+        "width": 192,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        416
+      ],
+      "id": "9d04f6b5-44b3-4f2c-98d1-e3ca0af7b08c",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Notes\n\n**1. Grab Ideas:**\n1.1 Filter : Column (video Status) = To Do\n1.2 Enable (Return only First Matching Row) will help to fetch items which have video status = To Do, only 1 item at particular time\n\n**2. Set Animals + Styple Fileds**\n2.1 animals (Array) means list = [\"Animal1\",\"Animal2\",\"Animal3\",\"Animal4\"] **(Four Animals on which we need to create a Image prompt)**\n2.2 Styple :\n\n**3. Split out List created before (Edit Field) for Animals : so we can feed those 4 items Animals into Agent to create a Image prompt for each Animal\n\n**4.Image Prompt Generation Agent:** This will generate a 4 different prompt for each animal , thats the reason we use split out \n\n**5. Remove \\n (Code node):** The 4 prompt for 4 different animals (might have quotations or new lines in Output ) to get rid friom it we use code node\n\n**6. Set (Image Prompts) Field:** need to set field as **image Prompt** so we can use as refernce for later\n\n* **Merge node**= Combine **(All Possible Combinations)** : means \n\n**1. Merge by Matching Fields:** Combine only rows that have the same value in a certain field\n\nExample:\nIf you say match where name is equal to Nate\nthen:\n| Left: name=Nate | Right: name=Nate | → these two rows merge into one. |\n\n**2. Merge by Position:**“Combine the first item from the left with the first item from the right, second with second, third with third, and so on.”\n\nExample:\n| Left 1st → V1 | Right 1st → A1 | ✅ Merged |\n| Left 2nd → V2 | Right 2nd → A2 | ✅ Merged |\n\n**3. Combine (All Possible Combinations)**: “Mix everything with everything — every left item with every right item.\n\nExample: Left side has:\n\nV1\nV2\n\nRight side has:\n\nA1\nA2\n\nNow Combine All will give you:\n\nCombined Pairs\nV1 + A1 = Link1\nV1 + A2 = Link2\nV2 + A1 = Link3\nV2 + A2 = Link4\n\nSo you get all possible combinations (4 total).\n\n* **Code node**= It simply says — “Let me take all these 4 links and put them together in one list.” \n\nSo instead of 4 separate items,\nyou now get one single list like this:\n\n[\n  link1,\n  link2,\n  link3,\n  link4\n]",
+        "height": 1600,
+        "width": 592,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1472,
+        -1296
+      ],
+      "id": "83fe60ea-13c7-4c8c-81a1-b37957b1cf90",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0013e7e4-65be-4ea2-9eaa-b53c14e2fe13",
+              "name": "animals",
+              "value": "=[\"{{ $json['Animal 1'] }}\",\"{{ $json['Animal 2'] }}\",\"{{ $json['Animal 3'] }}\",\"{{ $json['Animal 4'] }}\"]",
+              "type": "array"
+            },
+            {
+              "id": "5c41fc41-17c9-430a-88aa-3e467c5da0f3",
+              "name": "style",
+              "value": "={{ $json.Style }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        -128
+      ],
+      "id": "0a430c54-2ee7-4a8b-bcf4-a6ef08f8a8de",
+      "name": "Set (Animals + Style) Fileds"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "animals",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -128
+      ],
+      "id": "11f221d6-68a9-4686-a88d-05e5ca2b2855",
+      "name": "Split Out Animals"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        16
+      ],
+      "id": "971cd3f4-820b-4018-a6be-f87897539f4a",
+      "name": "gpt-4o",
+      "credentials": {
+        "openAiApi": {
+          "id": "2ll7nWhcZokpqeYF",
+          "name": "OpenAi account AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4bb98e21-fb27-4c5f-9fc0-51404086bec6",
+              "name": "image_prompts",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        -128
+      ],
+      "id": "844bc88b-f61c-4cae-af15-31819ff093de",
+      "name": "Set (Image Prompts) Field"
+    },
+    {
+      "parameters": {
+        "content": "### Optional Fields",
+        "height": 192,
+        "width": 384,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -176
+      ],
+      "id": "d9de11ee-f529-44a2-b89d-f0030f27fb4c",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.piapi.ai/api/v1/task",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"model\": \"Qubico/flux1-dev\",\n    \"task_type\": \"txt2img\",\n    \"input\": {\n        \"prompt\": \"{{ $json.image_prompts }}\",\n        \"width\": 540, \n        \"height\": 960\n    } \n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -400,
+        208
+      ],
+      "id": "c8bbc475-c6a1-42cc-b194-53533409a5bd",
+      "name": "Create Image From Prompt : Pi API",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cFUC265CaXgeXWQR",
+          "name": "Pi API Flux"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Image Generation : Pi API \n\n**FLUX Image Generation model** = $0.015 per image\n\nIts similar to Open router where you connect different chat models, here you can connect different image generation models",
+        "height": 192,
+        "width": 416,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        320
+      ],
+      "id": "c955b881-c658-4928-a5fb-e240dbd16232",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.piapi.ai/api/v1/task/{{ $json.data.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -64,
+        208
+      ],
+      "id": "9fd81de1-e6db-4d32-8ad9-f0b1f7e4f161",
+      "name": "GET: Status of Image Generation",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cFUC265CaXgeXWQR",
+          "name": "Pi API Flux"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.dev.runwayml.com/v1/image_to_video",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Runway-Version",
+              "value": "2024-11-06"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"promptImage\": \"{{ $json.data.output.image_url }}\",\n  \"model\": \"gen3a_turbo\",\n  \"promptText\": \"{{ $json.data.input.prompt }}\",\n  \"duration\": 5,\n  \"ratio\": \"768:1280\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        208
+      ],
+      "id": "ff569b93-1a07-44fa-94d7-3b19f3e2e349",
+      "name": "Generate Videos from Image : Runway",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TmkorNA3bhgVxQye",
+          "name": "Runway Video AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.dev.runwayml.com/v1/tasks/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Runway-Version",
+              "value": "2024-11-06"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        208
+      ],
+      "id": "b2497be1-62be-49c6-b51e-8b3a3d5df635",
+      "name": "GET: status of video generation",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TmkorNA3bhgVxQye",
+          "name": "Runway Video AIS"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        464
+      ],
+      "id": "62be6579-342c-4ab9-9bcf-74773eef17f8",
+      "name": "Limit to 1 item"
+    },
+    {
+      "parameters": {
+        "content": "## Runway\n\n**Each 5 sec video = 25 credits**",
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        528
+      ],
+      "id": "8cd3eb4d-0029-4449-9b17-b6e5aa286b55",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI",
+          "mode": "list",
+          "cachedResultName": "26. Youtube Shorts Content Creation Image 2 video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Grab Ideas').item.json.row_number }}",
+            "Video Status": "Created"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 1",
+              "displayName": "Animal 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 2",
+              "displayName": "Animal 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 3",
+              "displayName": "Animal 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 4",
+              "displayName": "Animal 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Style",
+              "displayName": "Style",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Caption",
+              "displayName": "Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Status",
+              "displayName": "Video Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Publish Status",
+              "displayName": "Publish Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Link",
+              "displayName": "Video Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -400,
+        464
+      ],
+      "id": "b547c853-494f-461e-9ed9-19724ee34b1d",
+      "name": "Update Video Status",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "r5dJyl6N7Nvh7Os3",
+          "name": "Google Sheets AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        656
+      ],
+      "id": "64f3b6b3-c9db-4e4b-be05-ade3fa4b77ee",
+      "name": "gemini-2.5-flash",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "nhAOL9sKMfyG8Vrt",
+          "name": "Google Gemini(PaLM) API account AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Style: {{ $('Grab Ideas').item.json.Style }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are a master sound prompt generator. Given a style, generate a vivid one-to-two sentence prompt that describes the ambiance, tone, and key sound elements to create an immersive audio scene. Use evocative language to capture the essence of the style.\n\n## Example\n- Style: Haunted Ghost Hunters\n- Output: Eerie whispers echo through a decaying mansion as floorboards creak under cautious footsteps. A distant, distorted radio crackles with ghostly voices, while a cold wind howls through shattered windows."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        464
+      ],
+      "id": "15347540-2db3-4107-9c4e-87d532981129",
+      "name": "Sound Prompt Agent"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/sound-generation",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "=sk_b93ef4bb066bc70b292c6b72b0f5ba7aa084844f49e04e69"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.audio_text }}"
+            },
+            {
+              "name": "duration_seconds",
+              "value": "20"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        464
+      ],
+      "id": "9b4a655e-32f2-4861-8f2c-643054daaf51",
+      "name": "Genrate Audio : 11 Labs"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "436898cc-3a68-415f-9714-cbd3a76edcdc",
+              "name": "audio_text",
+              "value": "={{ $json.output.trimEnd() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        464
+      ],
+      "id": "da514f05-4b1b-4133-820b-9c7742423f4e",
+      "name": "Set : audio_text : field"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Grab Ideas').item.json.Style }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "11cuGqExKhi4zooNtlJGp2R85nFJFeRKp",
+          "mode": "list",
+          "cachedResultName": "Audio Files",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/11cuGqExKhi4zooNtlJGp2R85nFJFeRKp"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        416,
+        464
+      ],
+      "id": "e0b08941-2d89-451b-b2ce-860604f264d3",
+      "name": "Upload Audio file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "4WOHyJQrlP95eZp9",
+          "name": "Google Drive account AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "anyone",
+            "allowFileDiscovery": true
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        576,
+        464
+      ],
+      "id": "c146bff1-12b9-428c-bd99-fd3f957f7ccd",
+      "name": "Share Audio Files to Anyone",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "4WOHyJQrlP95eZp9",
+          "name": "Google Drive account AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        768,
+        224
+      ],
+      "id": "6383aab3-bc09-4500-ac6b-f5c5ccc2bb9e",
+      "name": "Merge (Video + Audio) data"
+    },
+    {
+      "parameters": {
+        "jsCode": "// N8n Code Node to extract URLs from output arrays and combine them into a single array\n\n// This code assumes your input JSON is in items[0].json or is multiple items\n// Determine data source format\nlet inputArray;\n\nif (items.length === 1 && Array.isArray(items[0].json)) {\n  // If we have a single item containing our array\n  inputArray = items[0].json;\n} else if (items.length > 1) {\n  // If we already have multiple items, each containing part of our data\n  inputArray = items.map(item => item.json || item);\n} else {\n  throw new Error('Input structure not recognized. Please check your data format.');\n}\n\n// Create a single array to hold all URLs\nconst urlArray = [];\n\n// Process each item in the input array\nfor (const item of inputArray) {\n  // Get the data object\n  const data = item;\n  \n  // Check if the item has an output array\n  if (data.output && Array.isArray(data.output)) {\n    // For each URL in the output array, add to our URL array\n    for (const url of data.output) {\n      // You can choose to add just the URL or include metadata\n      urlArray.push({\n        url: url,\n        sourceId: data.id,\n        createdAt: data.createdAt\n      });\n    }\n  }\n}\n\n// Return a single item containing the array of all URLs\nreturn [{\n  json: {\n    urls: urlArray\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        224
+      ],
+      "id": "f94a25fe-db61-450b-a797-720ac408393b",
+      "name": "Split Out Parts: Take all these 4 links and put them together in one list."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.creatomate.com/v2/renders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 66634995fc634366b860d3ab898ca362473c19f6c26d91fa00a35a2d0c70d743295143ded617bc162114a1cf36a86d72"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template_id\": \"17948600-6100-4155-9227-08f227f34fc9\",\n  \"modifications\": {\n    \"Video-1.source\": \"{{ $json.urls[0].url }}\",\n    \"Video-2.source\": \"{{ $json.urls[1].url }}\",\n    \"Video-3.source\": \"{{ $json.urls[2].url }}\",\n    \"Video-4.source\": \"{{ $json.urls[3].url }}\",\n    \"Audio-Track.source\": \"{{ $('Upload Audio file').first().json.webContentLink }}\",\n    \"Text-1.text\": \"{{ $('Grab Ideas').first().json['Animal 1'] }}\",\n    \"Text-2.text\": \"{{ $('Grab Ideas').first().json['Animal 2'] }}\",\n    \"Text-3.text\": \"{{ $('Grab Ideas').first().json['Animal 3'] }}\",\n    \"Text-4.text\": \"{{ $('Grab Ideas').first().json['Animal 4'] }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1168,
+        224
+      ],
+      "id": "f5ce4d5b-8d29-4a78-b48a-3d67cc99b41c",
+      "name": "Creomat: Video & Audio editor (Template Code)"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        768,
+        464
+      ],
+      "id": "8a1d7b29-df55-42d7-be85-016df843f678",
+      "name": "GET : Download Video from URL"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI",
+          "mode": "list",
+          "cachedResultName": "26. Youtube Shorts Content Creation Image 2 video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13T28V4mOsWEJ9ainIhCtYvh7xbWmYRqcaNjQjIIuteI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Grab Ideas').first().json.row_number }}",
+            "Publish Status": "Processed",
+            "Video Link": "={{ $('GET : Download Video from URL').item.json.url }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 1",
+              "displayName": "Animal 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 2",
+              "displayName": "Animal 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 3",
+              "displayName": "Animal 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Animal 4",
+              "displayName": "Animal 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Style",
+              "displayName": "Style",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Caption",
+              "displayName": "Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Status",
+              "displayName": "Video Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Publish Status",
+              "displayName": "Publish Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Link",
+              "displayName": "Video Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        464
+      ],
+      "id": "e3c14ca7-b413-4b39-8716-a4234e9cfc4d",
+      "name": "Update (Publish status & Video Link)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "r5dJyl6N7Nvh7Os3",
+          "name": "Google Sheets AIS"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Image Prompt Generation: Agent": [
+      {
+        "json": {
+          "output": "A majestic tiger with striking orange and black stripes, its fur highlighted with bioluminescent blue streaks, creating an ethereal glow against the night. The tiger's eyes are sharp and intelligent, enhanced with digital lenses that flicker with data streams. It wears a rugged, metallic exosuit with embedded LED lights that pulse in rhythmic patterns. A hooded cape billows behind it, made of a sleek, iridescent fabric that shimmers with a spectrum of colors. The background is an urban jungle, a dystopian cityscape bathed in neon lights and holographic billboards. Skyscrapers tower with digital advertisements, and a network of aerial pathways buzzes with autonomous vehicles. Vibrant graffiti covers the walls, symbolizing resistance. In this electric atmosphere, a group of rebels clad in avant-garde fashion and tech-infused garb mill around the tiger, embodying a world where nature and technology collide in harmony."
+        }
+      },
+      {
+        "json": {
+          "output": "A burly bear with thick, lustrous fur streaked with luminescent stripes of blue and purple, reflecting its connection to the futuristic rebellion. The bear is clad in a rugged yet stylish armored vest made of composite materials, adorned with glowing neon lights and digital camo patterns. High-tech goggles rest on its head, projecting a heads-up display and emitting a soft electric hum. Around its neck hangs a metallic pendant engraved with a symbol of the rebel alliance, pulsing rhythmically. The scene is set in a sprawling, dystopian cityscape with towering skyscrapers and cascading holographic advertisements. The ground is broken, featuring weeds growing through the cracks and remnants of old street art. Rebel drones buzz overhead, and fellow rebels dash between shadows, all set against a sky electrified with streaks of light from passing vehicles zipping through the air."
+        }
+      },
+      {
+        "json": {
+          "output": "A robust Rhino with a metallic sheen to its grey skin, enhanced by intricate cybernetic implants that hum with energy. It is adorned with a high-collared, distressed leather trench coat featuring luminescent red stitching and circuit-like designs. A pair of sleek, reflective sunglasses rest on its horn, and digital tattoos glow subtly along its massive frame. The Rhino stands amidst a sprawling underground hideout, filled with holographic maps and flickering electronic equipment. Neon graffiti decorates steel walls, while fellow rebels, clad in mismatched tech attire, discuss plans under the cool glow of overhead LED lights. Electric blue and purple create an ambient glow throughout the cavernous space, contrasting the dynamic shadows that dance across the concrete floors."
+        }
+      },
+      {
+        "json": {
+          "output": "A robust pig with smooth, light-pink skin and gleaming mechanical enhancements integrated into its form, such as metallic tusks and LED-lit panels along its sides. The pig dons a sleek, armored suit in shades of metallic gray and neon green, featuring intricate digital patterns and glowing energy lines. Its ears are adorned with small communication devices, and it wears a multi-layered utility belt decorated with holographic charms. The scene is set in a sprawling, high-tech city with towering skyscrapers, where dark alleys are illuminated by flickering neon graffiti and holograms depicting animated street art. A group of similarly attired, futuristic rebels gather in the background, tinkering with gadgets under the shadow of a colossal, neon-lit billboard featuring a dystopian cityscape."
+        }
+      }
+    ],
+    "Create Image From Prompt : Pi API": [
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "fc6bccad-89ce-4c89-bb0b-ac4f501e9160",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "pending",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "prompt": "A majestic tiger with striking orange and black stripes, its fur highlighted with bioluminescent blue streaks, creating an ethereal glow against the night. The tiger's eyes are sharp and intelligent, enhanced with digital lenses that flicker with data streams. It wears a rugged, metallic exosuit with embedded LED lights that pulse in rhythmic patterns. A hooded cape billows behind it, made of a sleek, iridescent fabric that shimmers with a spectrum of colors. The background is an urban jungle, a dystopian cityscape bathed in neon lights and holographic billboards. Skyscrapers tower with digital advertisements, and a network of aerial pathways buzzes with autonomous vehicles. Vibrant graffiti covers the walls, symbolizing resistance. In this electric atmosphere, a group of rebels clad in avant-garde fashion and tech-infused garb mill around the tiger, embodying a world where nature and technology collide in harmony.",
+              "negative_prompt": "",
+              "image": "",
+              "width": 540,
+              "height": 960,
+              "guidance_scale": 0,
+              "denoise": 0,
+              "seed": 0,
+              "steps": 0,
+              "batch_size": 0,
+              "scale": 0,
+              "return_preprocessed_image": false,
+              "lora_settings": null,
+              "custom_settings": null
+            },
+            "output": null,
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.852605949Z",
+              "started_at": "0001-01-01T00:00:00Z",
+              "ended_at": "0001-01-01T00:00:00Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "45785edf-a216-46b3-b1c1-6548372f21d4",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "pending",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "prompt": "A burly bear with thick, lustrous fur streaked with luminescent stripes of blue and purple, reflecting its connection to the futuristic rebellion. The bear is clad in a rugged yet stylish armored vest made of composite materials, adorned with glowing neon lights and digital camo patterns. High-tech goggles rest on its head, projecting a heads-up display and emitting a soft electric hum. Around its neck hangs a metallic pendant engraved with a symbol of the rebel alliance, pulsing rhythmically. The scene is set in a sprawling, dystopian cityscape with towering skyscrapers and cascading holographic advertisements. The ground is broken, featuring weeds growing through the cracks and remnants of old street art. Rebel drones buzz overhead, and fellow rebels dash between shadows, all set against a sky electrified with streaks of light from passing vehicles zipping through the air.",
+              "negative_prompt": "",
+              "image": "",
+              "width": 540,
+              "height": 960,
+              "guidance_scale": 0,
+              "denoise": 0,
+              "seed": 0,
+              "steps": 0,
+              "batch_size": 0,
+              "scale": 0,
+              "return_preprocessed_image": false,
+              "lora_settings": null,
+              "custom_settings": null
+            },
+            "output": null,
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.928940393Z",
+              "started_at": "0001-01-01T00:00:00Z",
+              "ended_at": "0001-01-01T00:00:00Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "68ffe2c4-e2fc-4262-a354-5ab0a9c384ef",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "pending",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "prompt": "A robust Rhino with a metallic sheen to its grey skin, enhanced by intricate cybernetic implants that hum with energy. It is adorned with a high-collared, distressed leather trench coat featuring luminescent red stitching and circuit-like designs. A pair of sleek, reflective sunglasses rest on its horn, and digital tattoos glow subtly along its massive frame. The Rhino stands amidst a sprawling underground hideout, filled with holographic maps and flickering electronic equipment. Neon graffiti decorates steel walls, while fellow rebels, clad in mismatched tech attire, discuss plans under the cool glow of overhead LED lights. Electric blue and purple create an ambient glow throughout the cavernous space, contrasting the dynamic shadows that dance across the concrete floors.",
+              "negative_prompt": "",
+              "image": "",
+              "width": 540,
+              "height": 960,
+              "guidance_scale": 0,
+              "denoise": 0,
+              "seed": 0,
+              "steps": 0,
+              "batch_size": 0,
+              "scale": 0,
+              "return_preprocessed_image": false,
+              "lora_settings": null,
+              "custom_settings": null
+            },
+            "output": null,
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.860529933Z",
+              "started_at": "0001-01-01T00:00:00Z",
+              "ended_at": "0001-01-01T00:00:00Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "18deb271-19fe-4096-8258-fd5f6f18f504",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "pending",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "prompt": "A robust pig with smooth, light-pink skin and gleaming mechanical enhancements integrated into its form, such as metallic tusks and LED-lit panels along its sides. The pig dons a sleek, armored suit in shades of metallic gray and neon green, featuring intricate digital patterns and glowing energy lines. Its ears are adorned with small communication devices, and it wears a multi-layered utility belt decorated with holographic charms. The scene is set in a sprawling, high-tech city with towering skyscrapers, where dark alleys are illuminated by flickering neon graffiti and holograms depicting animated street art. A group of similarly attired, futuristic rebels gather in the background, tinkering with gadgets under the shadow of a colossal, neon-lit billboard featuring a dystopian cityscape.",
+              "negative_prompt": "",
+              "image": "",
+              "width": 540,
+              "height": 960,
+              "guidance_scale": 0,
+              "denoise": 0,
+              "seed": 0,
+              "steps": 0,
+              "batch_size": 0,
+              "scale": 0,
+              "return_preprocessed_image": false,
+              "lora_settings": null,
+              "custom_settings": null
+            },
+            "output": null,
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.943164271Z",
+              "started_at": "0001-01-01T00:00:00Z",
+              "ended_at": "0001-01-01T00:00:00Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      }
+    ],
+    "GET: Status of Image Generation": [
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "fc6bccad-89ce-4c89-bb0b-ac4f501e9160",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "completed",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "batch_size": 0,
+              "custom_settings": null,
+              "denoise": 0,
+              "guidance_scale": 0,
+              "height": 960,
+              "image": "",
+              "lora_settings": null,
+              "negative_prompt": "",
+              "prompt": "A majestic tiger with striking orange and black stripes, its fur highlighted with bioluminescent blue streaks, creating an ethereal glow against the night. The tiger's eyes are sharp and intelligent, enhanced with digital lenses that flicker with data streams. It wears a rugged, metallic exosuit with embedded LED lights that pulse in rhythmic patterns. A hooded cape billows behind it, made of a sleek, iridescent fabric that shimmers with a spectrum of colors. The background is an urban jungle, a dystopian cityscape bathed in neon lights and holographic billboards. Skyscrapers tower with digital advertisements, and a network of aerial pathways buzzes with autonomous vehicles. Vibrant graffiti covers the walls, symbolizing resistance. In this electric atmosphere, a group of rebels clad in avant-garde fashion and tech-infused garb mill around the tiger, embodying a world where nature and technology collide in harmony.",
+              "return_preprocessed_image": false,
+              "scale": 0,
+              "seed": 0,
+              "steps": 0,
+              "width": 540
+            },
+            "output": {
+              "image_base64": "",
+              "image_url": "https://img.theapi.app/temp/294c5773-cd02-4e0f-b5f0-dea235b3a7ef.png"
+            },
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.852605949Z",
+              "started_at": "2025-10-05T13:28:00.875173181Z",
+              "ended_at": "2025-10-05T13:28:33.579555232Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 0
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "45785edf-a216-46b3-b1c1-6548372f21d4",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "completed",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "batch_size": 0,
+              "custom_settings": null,
+              "denoise": 0,
+              "guidance_scale": 0,
+              "height": 960,
+              "image": "",
+              "lora_settings": null,
+              "negative_prompt": "",
+              "prompt": "A burly bear with thick, lustrous fur streaked with luminescent stripes of blue and purple, reflecting its connection to the futuristic rebellion. The bear is clad in a rugged yet stylish armored vest made of composite materials, adorned with glowing neon lights and digital camo patterns. High-tech goggles rest on its head, projecting a heads-up display and emitting a soft electric hum. Around its neck hangs a metallic pendant engraved with a symbol of the rebel alliance, pulsing rhythmically. The scene is set in a sprawling, dystopian cityscape with towering skyscrapers and cascading holographic advertisements. The ground is broken, featuring weeds growing through the cracks and remnants of old street art. Rebel drones buzz overhead, and fellow rebels dash between shadows, all set against a sky electrified with streaks of light from passing vehicles zipping through the air.",
+              "return_preprocessed_image": false,
+              "scale": 0,
+              "seed": 0,
+              "steps": 0,
+              "width": 540
+            },
+            "output": {
+              "image_base64": "",
+              "image_url": "https://img.theapi.app/temp/91955277-f106-4353-aad6-b2096ce80656.png"
+            },
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.928940393Z",
+              "started_at": "2025-10-05T13:28:01.87610911Z",
+              "ended_at": "2025-10-05T13:28:32.579504862Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "68ffe2c4-e2fc-4262-a354-5ab0a9c384ef",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "completed",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "batch_size": 0,
+              "custom_settings": null,
+              "denoise": 0,
+              "guidance_scale": 0,
+              "height": 960,
+              "image": "",
+              "lora_settings": null,
+              "negative_prompt": "",
+              "prompt": "A robust Rhino with a metallic sheen to its grey skin, enhanced by intricate cybernetic implants that hum with energy. It is adorned with a high-collared, distressed leather trench coat featuring luminescent red stitching and circuit-like designs. A pair of sleek, reflective sunglasses rest on its horn, and digital tattoos glow subtly along its massive frame. The Rhino stands amidst a sprawling underground hideout, filled with holographic maps and flickering electronic equipment. Neon graffiti decorates steel walls, while fellow rebels, clad in mismatched tech attire, discuss plans under the cool glow of overhead LED lights. Electric blue and purple create an ambient glow throughout the cavernous space, contrasting the dynamic shadows that dance across the concrete floors.",
+              "return_preprocessed_image": false,
+              "scale": 0,
+              "seed": 0,
+              "steps": 0,
+              "width": 540
+            },
+            "output": {
+              "image_base64": "",
+              "image_url": "https://img.theapi.app/temp/7b8d556c-76aa-491f-a2a5-a2636e9ad005.png"
+            },
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.860529933Z",
+              "started_at": "2025-10-05T13:28:00.875280938Z",
+              "ended_at": "2025-10-05T13:28:33.648555208Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 0
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      },
+      {
+        "json": {
+          "code": 200,
+          "data": {
+            "task_id": "18deb271-19fe-4096-8258-fd5f6f18f504",
+            "model": "Qubico/flux1-dev",
+            "task_type": "txt2img",
+            "status": "completed",
+            "config": {
+              "service_mode": "",
+              "webhook_config": {
+                "endpoint": "",
+                "secret": ""
+              }
+            },
+            "input": {
+              "batch_size": 0,
+              "custom_settings": null,
+              "denoise": 0,
+              "guidance_scale": 0,
+              "height": 960,
+              "image": "",
+              "lora_settings": null,
+              "negative_prompt": "",
+              "prompt": "A robust pig with smooth, light-pink skin and gleaming mechanical enhancements integrated into its form, such as metallic tusks and LED-lit panels along its sides. The pig dons a sleek, armored suit in shades of metallic gray and neon green, featuring intricate digital patterns and glowing energy lines. Its ears are adorned with small communication devices, and it wears a multi-layered utility belt decorated with holographic charms. The scene is set in a sprawling, high-tech city with towering skyscrapers, where dark alleys are illuminated by flickering neon graffiti and holograms depicting animated street art. A group of similarly attired, futuristic rebels gather in the background, tinkering with gadgets under the shadow of a colossal, neon-lit billboard featuring a dystopian cityscape.",
+              "return_preprocessed_image": false,
+              "scale": 0,
+              "seed": 0,
+              "steps": 0,
+              "width": 540
+            },
+            "output": {
+              "image_base64": "",
+              "image_url": "https://img.theapi.app/temp/0b164a18-877f-4f8c-9a38-3462392d35da.png"
+            },
+            "meta": {
+              "created_at": "2025-10-05T13:28:00.943164271Z",
+              "started_at": "2025-10-05T13:28:01.876208988Z",
+              "ended_at": "2025-10-05T13:28:34.099680557Z",
+              "usage": {
+                "type": "llm",
+                "frozen": 0,
+                "consume": 150000
+              },
+              "is_using_private_pool": false
+            },
+            "detail": null,
+            "logs": [],
+            "error": {
+              "code": 0,
+              "raw_message": "",
+              "message": "",
+              "detail": null
+            }
+          },
+          "message": "success"
+        }
+      }
+    ],
+    "Generate Videos from Image : Runway": [
+      {
+        "json": {
+          "id": "683ef3ac-5a9d-4c3e-8e37-73d89d953508"
+        }
+      },
+      {
+        "json": {
+          "id": "c18ad58f-0c39-4c5a-9444-eca4b5fe4a34"
+        }
+      },
+      {
+        "json": {
+          "id": "9ac8ef28-05e7-4f31-b614-52bb2fab6f2a"
+        }
+      },
+      {
+        "json": {
+          "id": "c81debe3-d3ce-4254-a347-da3fc88564a1"
+        }
+      }
+    ],
+    "GET: status of video generation": [
+      {
+        "json": {
+          "id": "683ef3ac-5a9d-4c3e-8e37-73d89d953508",
+          "createdAt": "2025-10-05T13:42:50.847Z",
+          "status": "SUCCEEDED",
+          "output": [
+            "https://dnznrvs05pmza.cloudfront.net/e4dd1fe1-19d8-4554-8382-ea0dc4bb04ea.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzUwZTkwYzZmYmU3MzdhMSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.xO1qo80QEv94m0c4R__Y6DTQHTNf3_fzGPwqKNt1OJQ"
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": "c18ad58f-0c39-4c5a-9444-eca4b5fe4a34",
+          "createdAt": "2025-10-05T13:42:50.651Z",
+          "status": "SUCCEEDED",
+          "output": [
+            "https://dnznrvs05pmza.cloudfront.net/70d46e4a-b9be-4718-8944-5352297fe33e.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjk5OGZlOWQwZjJhYjQ0NyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.Ehl6FRQaCM7qxtB9l3XqLkdGyKxlsjp3X_DSbik5RpE"
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": "9ac8ef28-05e7-4f31-b614-52bb2fab6f2a",
+          "createdAt": "2025-10-05T13:42:50.278Z",
+          "status": "SUCCEEDED",
+          "output": [
+            "https://dnznrvs05pmza.cloudfront.net/1e37f513-a675-415c-961e-4ef9b45232ca.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZGE0N2Y1ZjNlM2VlYzE2NCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.W82Lw9t6OONuZyxJXQwBCAyI1WlQP1PM8GgbWOvhiP8"
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": "c81debe3-d3ce-4254-a347-da3fc88564a1",
+          "createdAt": "2025-10-05T13:42:50.436Z",
+          "status": "SUCCEEDED",
+          "output": [
+            "https://dnznrvs05pmza.cloudfront.net/c6e41f12-d8f7-4b1c-a51b-b345f6945330.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiM2JmOTcxM2U0ZjM3ZDZiZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.SaXqXIsl9u8shXhpCszM6I4LSW34cwnsdZ13zKOAGEM"
+          ]
+        }
+      }
+    ],
+    "Sound Prompt Agent": [
+      {
+        "json": {
+          "output": "Rain slicks the grimy neon streets as the urgent patter of combat boots echoes through narrow alleys, punctuated by the sharp crackle of suppressed energy weapons and the distant, throbbing hum of corporate air-patrols. Encrypted comms chatter and the rhythmic pulse of a defiant synth-bass underscore a tense, high-stakes escape."
+        }
+      }
+    ],
+    "Creomat: Video & Audio editor (Template Code)": [
+      {
+        "json": {
+          "id": "c517026e-97d6-46a2-a7e6-0d36ef70ebcf",
+          "status": "planned",
+          "url": "https://f002.backblazeb2.com/file/creatomate-c8xg3hsxdu/c517026e-97d6-46a2-a7e6-0d36ef70ebcf.mp4",
+          "template_id": "17948600-6100-4155-9227-08f227f34fc9",
+          "template_name": "Animal Video Template",
+          "template_tags": [],
+          "output_format": "mp4",
+          "modifications": {
+            "Video-1.source": "https://dnznrvs05pmza.cloudfront.net/e4dd1fe1-19d8-4554-8382-ea0dc4bb04ea.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzUwZTkwYzZmYmU3MzdhMSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.xO1qo80QEv94m0c4R__Y6DTQHTNf3_fzGPwqKNt1OJQ",
+            "Video-2.source": "https://dnznrvs05pmza.cloudfront.net/70d46e4a-b9be-4718-8944-5352297fe33e.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjk5OGZlOWQwZjJhYjQ0NyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.Ehl6FRQaCM7qxtB9l3XqLkdGyKxlsjp3X_DSbik5RpE",
+            "Video-3.source": "https://dnznrvs05pmza.cloudfront.net/1e37f513-a675-415c-961e-4ef9b45232ca.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZGE0N2Y1ZjNlM2VlYzE2NCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.W82Lw9t6OONuZyxJXQwBCAyI1WlQP1PM8GgbWOvhiP8",
+            "Video-4.source": "https://dnznrvs05pmza.cloudfront.net/c6e41f12-d8f7-4b1c-a51b-b345f6945330.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiM2JmOTcxM2U0ZjM3ZDZiZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc1OTc5NTIwMH0.SaXqXIsl9u8shXhpCszM6I4LSW34cwnsdZ13zKOAGEM",
+            "Audio-Track.source": "https://drive.google.com/uc?id=1HtcdrYJL-kfazD8doDXouUzlYxMZz94C&export=download",
+            "Text-1.text": "Tiger",
+            "Text-2.text": "Bear",
+            "Text-3.text": "Rhino",
+            "Text-4.text": "Pig"
+          }
+        }
+      }
+    ],
+    "Upload a video": [
+      {
+        "json": {
+          "uploadId": "Wicd6GoS36I"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Grab Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Grab Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grab Ideas": {
+      "main": [
+        [
+          {
+            "node": "Set (Animals + Style) Fileds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Prompt Generation: Agent": {
+      "main": [
+        [
+          {
+            "node": "Remove \\n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove \\n": {
+      "main": [
+        [
+          {
+            "node": "Set (Image Prompts) Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 90 Sec": {
+      "main": [
+        [
+          {
+            "node": "GET: Status of Image Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 120 Sec": {
+      "main": [
+        [
+          {
+            "node": "GET: status of video generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 25 Sec": {
+      "main": [
+        [
+          {
+            "node": "GET : Download Video from URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload a video": {
+      "main": [
+        [
+          {
+            "node": "Update (Publish status & Video Link)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set (Animals + Style) Fileds": {
+      "main": [
+        [
+          {
+            "node": "Split Out Animals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Animals": {
+      "main": [
+        [
+          {
+            "node": "Image Prompt Generation: Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image Prompt Generation: Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set (Image Prompts) Field": {
+      "main": [
+        [
+          {
+            "node": "Create Image From Prompt : Pi API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image From Prompt : Pi API": {
+      "main": [
+        [
+          {
+            "node": "Wait 90 Sec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Status of Image Generation": {
+      "main": [
+        [
+          {
+            "node": "Generate Videos from Image : Runway",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Videos from Image : Runway": {
+      "main": [
+        [
+          {
+            "node": "Wait 120 Sec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: status of video generation": {
+      "main": [
+        [
+          {
+            "node": "Limit to 1 item",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge (Video + Audio) data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit to 1 item": {
+      "main": [
+        [
+          {
+            "node": "Update Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Video Status": {
+      "main": [
+        [
+          {
+            "node": "Sound Prompt Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-2.5-flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sound Prompt Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sound Prompt Agent": {
+      "main": [
+        [
+          {
+            "node": "Set : audio_text : field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Genrate Audio : 11 Labs": {
+      "main": [
+        [
+          {
+            "node": "Upload Audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set : audio_text : field": {
+      "main": [
+        [
+          {
+            "node": "Genrate Audio : 11 Labs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Audio file": {
+      "main": [
+        [
+          {
+            "node": "Share Audio Files to Anyone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share Audio Files to Anyone": {
+      "main": [
+        [
+          {
+            "node": "Merge (Video + Audio) data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge (Video + Audio) data": {
+      "main": [
+        [
+          {
+            "node": "Split Out Parts: Take all these 4 links and put them together in one list.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Parts: Take all these 4 links and put them together in one list.": {
+      "main": [
+        [
+          {
+            "node": "Creomat: Video & Audio editor (Template Code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creomat: Video & Audio editor (Template Code)": {
+      "main": [
+        [
+          {
+            "node": "Wait 25 Sec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET : Download Video from URL": {
+      "main": [
+        [
+          {
+            "node": "Upload a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update (Publish status & Video Link)": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "099bc774-e47e-4a4f-8f38-6cddb6f94b2b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "91f42292365f2736b62ea45ddfd531a5d9a185f2bc4a363bfb1ae1188ac76851"
+  },
+  "id": "Kh5duaDLPSrnxdrl",
+  "tags": []
+}
